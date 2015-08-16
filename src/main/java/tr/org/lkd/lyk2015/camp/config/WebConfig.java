@@ -28,7 +28,7 @@ import junit.framework.Assert;
 @EnableWebMvc
 @EnableTransactionManagement
 @ComponentScan({ "tr.org.lkd.lyk2015.camp.controller", "tr.org.lkd.lyk2015.camp.service",
-		"tr.org.lkd.lyk2015.camp.repository" })
+		"tr.org.lkd.lyk2015.camp.repository", "tr.org.lkd.lyk2015.camp.dal" })
 public class WebConfig extends WebMvcConfigurerAdapter {
 
 	@Bean // Beanlar uygulama ilk basladıgında calısır. Bu nesneler Dependcy
@@ -59,7 +59,8 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 	public ThymeleafViewResolver viewResolver() {
 		ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
 		viewResolver.setTemplateEngine(templateEngine());
-
+		viewResolver.setContentType("text/html;charset=UTF-8");
+		
 		return viewResolver;
 	}
 
@@ -99,7 +100,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 	private Properties getHibernateProperties() { // property dosyamız
 		Properties properties = new Properties();
 		properties.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect"); 
-		properties.put("hibernate.hbm2ddl.auto", "create");  
+		properties.put("hibernate.hbm2ddl.auto", "update");  
 		properties.put("hibernate.show_sql", "true");
 		properties.put("hibernate.format_sql", "true");
 		properties.put("hibernate.use_sql_comments", "true");

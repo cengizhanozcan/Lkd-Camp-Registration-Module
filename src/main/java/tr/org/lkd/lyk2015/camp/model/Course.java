@@ -7,6 +7,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
+
+/*
+*cengizhan - Aug 16, 2015
+*/
+
 @Entity
 public class Course extends AbstractBaseModel{
  

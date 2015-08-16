@@ -4,6 +4,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
+
+/*
+*cengizhan - Aug 16, 2015
+*/
+
 @MappedSuperclass // Bunun icinde ki kolonlar sub classlar icinde gecerli olacak.
 public abstract class AbstractUser extends AbstractBaseModel{
 	

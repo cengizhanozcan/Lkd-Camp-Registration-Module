@@ -6,6 +6,10 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 
 
+/*
+*cengizhan - Aug 16, 2015
+*/
+
 @Entity
 public class Instructor extends AbstractUser{
 

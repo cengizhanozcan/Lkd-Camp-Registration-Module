@@ -2,6 +2,11 @@ package tr.org.lkd.lyk2015.camp.model;
 
 import javax.persistence.Entity;
 
+
+/*
+*cengizhan - Aug 16, 2015
+*/
+
 @Entity
 public class Admin extends AbstractUser{
 	

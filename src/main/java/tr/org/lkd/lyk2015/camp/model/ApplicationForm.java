@@ -12,6 +12,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 /*
+*cengizhan - Aug 16, 2015
+*/
+
+/*
  * This entity represents an application form which is submitted by a student
  * 
  * Same Studdent may summit different forms in different year

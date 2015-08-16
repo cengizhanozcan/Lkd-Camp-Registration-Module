@@ -7,6 +7,10 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
 
+/*
+*cengizhan - Aug 16, 2015
+*/
+
 @MappedSuperclass
 public abstract class AbstractBaseModel {
 	

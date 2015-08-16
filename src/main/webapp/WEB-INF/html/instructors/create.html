@@ -1,0 +1,64 @@
+<div th:fragment="content">
+
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h1>Instructor Hesabı Oluştur</h1>
+		</div>
+
+		<div class="panel-body">
+			<form action="#" th:action="@{/instructors/create}" th:object="${instructor}"
+				method="post">
+
+				<div class="form-group">
+					<label for="nameInput">Ad: </label> <input id="nameInput"
+						class="form-control" type="text" th:field="*{name}" />
+				</div>
+
+				<div class="form-group">
+					<label for="surnameInput">Soyad: </label> <input id="surnameInput"
+						class="form-control" type="text" th:field="*{surname}" />
+
+				</div>
+				<div class="form-group">
+					<label for="tcknInput">TC Kimlik No:</label> <input id="tcknInput"
+						class="form-control" type="number" th:field="*{tckn}"
+						 />
+
+				</div>
+				<div class="form-group">
+					<label for="passwordInput">Sifre:</label> <input id="passwordInput"
+						class="form-control" type="password" th:field="*{password}" />
+
+				</div>
+				<div class="form-group">
+					<label for="passwordAgainInput">Sifre Tekrar:</label> <input
+						id="passwordAgainInput" class="form-control" type="password"
+						name="passwordAgain"/>
+
+				</div>
+				<div class="form-group">
+					<label for="emailInput">Email:</label> <input id="emailInput"
+						class="form-control" type="text" th:field="*{email}" />
+
+				</div>
+				<div class="form-group">
+					<label for="phoneInput">Telefon No:</label> <input id="phoneInput"
+						class="form-control" type="text" th:field="*{phone}" />
+
+				</div>
+				<div class="form-group">
+					<label for="birthDateInput">Doğum Tarihi:</label> <input
+						id="birthDateInput" class="form-control" type="number"
+						th:field="*{birthDate}" />
+
+				</div>
+				 
+				<div class="form-group">
+					<p>
+						<input type="submit" value="Kaydet" class="btn btn-lg btn-success" />
+					</p>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
