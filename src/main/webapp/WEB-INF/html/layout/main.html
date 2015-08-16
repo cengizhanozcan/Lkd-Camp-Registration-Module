@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 <meta name="description" content="">
-<meta name="author" content="">
+<meta name="author" content="LKD">
 
-<title>Sticky Footer Navbar Template for Bootstrap</title>
+<title>Kamp Anasayfa</title>
 
 <!-- Bootstrap core CSS -->
 <link rel="stylesheet" type="text/css" media="all"
@@ -19,11 +19,9 @@
 <link rel="stylesheet" type="text/css" media="all"
 	href="../../css/sticky-footer-navbar.css"
 	th:href="@{/resources/css/sticky-footer-navbar.css}" />
-
 </head>
 
 <body>
-
 	<footer>&copy; 2015 Linux Yaz Kampi</footer>
 
 
@@ -42,7 +40,8 @@
 			</div>
 			<div id="navbar" class="collapse navbar-collapse">
 				<ul class="nav navbar-nav">
-					<li class="active"><a href="#" th:href="@{/todo}" >Todo List</a></li>
+					<li class="active"><a href="#" th:href="@{/todo}">Todo
+							List</a></li>
 					<li><a href="#create" th:href="@{/todo/create}">Create</a></li>
 				</ul>
 			</div>
@@ -53,21 +52,24 @@
 	<!-- Begin page content -->
 	<div class="container">
 		<div class="page-header">
-			  
-			<hr />
-			<th:block th:include="${layout_main} :: content">
+			<h2>
+				<th:block th:include="${layout_main} :: header">
+
+				</th:block>
+			</h2>
+		</div>
+
+		<th:block th:include="${layout_main} :: content">
 			Hiooo
 			
 		</th:block>
 
-		</div>
+
 
 	</div>
 
 	<footer class="footer">
-		<div class="container">
-			 
-		</div>
+		<div class="container"></div>
 	</footer>
 
 
