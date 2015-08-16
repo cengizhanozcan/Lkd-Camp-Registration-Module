@@ -1,0 +1,34 @@
+<div th:fragment="content">
+
+	<div class="container">
+		<div class="text-center"><h1>Admins</h1></div>
+		<br>
+
+		<table class="table table-hover">
+			<thead>
+				<th>ID</th>
+				<th>Name</th>
+				<th>Description</th>
+				<th>Prerequisites</th>
+				<th>Detail Page Link</th>
+
+			</thead>
+			<tbody>
+				<tr th:each="course : ${courses}">
+
+					<td th:text="${course.id}"></td>
+
+					<td th:text="${course.name}"></td>
+
+					<td th:text="${course.description}"></td>
+
+					<td th:text="${course.prerequisites}"></td>
+
+					<td th:text="${course.detailPageLink}"></td>
+					 
+				 
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

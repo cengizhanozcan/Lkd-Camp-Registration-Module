@@ -6,9 +6,10 @@
 		</div>
 
 		<div class="panel-body">
-			<form action="#" th:action="@{/admins/create}" th:object="${admin}"
+			<form action="#" th:action="@{/admins/update}" th:object="${admin}"
 				method="post">
-
+				
+				<input th:hidden ="*{id}" th:field="*{id}" />
 				<div class="form-group">
 					<label for="nameInput">Ad: </label> <input id="nameInput"
 						class="form-control" type="text" th:field="*{name}" />
@@ -59,7 +60,7 @@
 				</div>
 				<div class="form-group">
 					<p>
-						<input type="submit" value="Güncelle" class="btn btn-lg btn-success" />
+						<input type="submit" value="Kaydet" class="btn btn-lg btn-success" />
 					</p>
 				</div>
 			</form>

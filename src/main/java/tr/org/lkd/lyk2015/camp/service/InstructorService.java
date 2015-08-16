@@ -20,21 +20,21 @@ import tr.org.lkd.lyk2015.camp.model.Instructor;
 */
 @Transactional
 @Service
-public class InstructorService {
+public class InstructorService extends GenericService<Instructor>{
 
 	@Autowired
 	protected InstructorDao instructorDao;
 
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 
-	public Long create(AbstractUser instructor) {
+	public Long create(Instructor instructor) {
 
 		if (instructor == null) {
 			throw new RuntimeException("Instructor cannot create");
 		}
 		setBaseAttribute(instructor);
 
-		return instructorDao.create(instructor);
+		return super.create(instructor);
 	}
 
 	private void setBaseAttribute(AbstractUser instructor) {
@@ -45,7 +45,7 @@ public class InstructorService {
 		instructor.setDeleted(false);
 	}
 
-	public List<AbstractUser> getInstructors(){
+	public List<Instructor> getInstructors(){
 		
 		return instructorDao.getInstructures();
 	}

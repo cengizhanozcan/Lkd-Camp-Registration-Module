@@ -48,11 +48,32 @@ public class AdminController {
 		}
 	}
 	
-	
 	@RequestMapping(value="", method = RequestMethod.GET)
 	public String getAdmins(Model model){
 		
 		model.addAttribute("adminList", adminService.getAdmins());
 		return "admins/adminList";
 	}
+	
+	
+	@RequestMapping(value="/update", method= RequestMethod.GET)
+	public String getUpdate(@RequestParam("id") Long id, Model model){
+		
+		Admin admin = adminService.getById(id);
+		model.addAttribute("admin", admin);
+		
+		return "admins/updateAdmin";
+		
+	}
+	
+	@RequestMapping(value ="/update", method = RequestMethod.POST)
+	public String postUpdate(@ModelAttribute Admin admin){
+		
+		adminService.update(admin);
+		return "redirect:/admins";
+	}
+	
+	
+	
+	
 }

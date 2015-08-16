@@ -20,39 +20,52 @@ import tr.org.lkd.lyk2015.camp.model.Admin;
 
 @Transactional
 @Service
-public class AdminService {
+public class AdminService extends GenericService<Admin> {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 
 	@Autowired
-	protected AdminDao adminDao;
+	private AdminDao adminDao;
 	
+ 
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 
-	
-	public Long create(AbstractUser admin){
-		
-		if(admin == null){
+	public Long create(Admin admin) {
+
+		if (admin == null) {
 			throw new RuntimeException("Admin cannot create");
 		}
-		
+
 		setBaseAttribute(admin);
-		
-		return adminDao.create(admin);
+
+		return super.create(admin);
 	}
 
 	/*
 	 * Temel attribütler set ediliyor.
 	 */
 	private void setBaseAttribute(AbstractUser admin) {
-		
+
 		Calendar cal = DateBaseModel.getCurrentTimeAsCalendar();
 		admin.setCreateDate(cal);
 		admin.setUpdateDate(cal);
 		admin.setDeleted(false);
 	}
 
-	public List<AbstractUser> getAdmins(){
-		
+	public List<AbstractUser> getAdmins() {
+
 		return adminDao.getAdmins();
-	} 
+	}
 	
+	public Admin update(Admin admin){
+		
+		setBaseAttribute(admin);
+		return super.update(admin);
+				
+	}
+
 }
