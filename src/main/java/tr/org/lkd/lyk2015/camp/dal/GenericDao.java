@@ -72,6 +72,7 @@ public class GenericDao<T extends AbstractBaseModel> {
 		final Session session = sessionFactory.getCurrentSession();
 		final Calendar now = Calendar.getInstance();
 		t.setUpdateDate(now);
+		t.setDeleted(false);
 		return (T) session.merge(t);
 	}
 

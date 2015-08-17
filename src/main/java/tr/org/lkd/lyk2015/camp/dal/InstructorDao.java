@@ -2,6 +2,8 @@ package tr.org.lkd.lyk2015.camp.dal;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
@@ -30,5 +32,18 @@ public class InstructorDao extends GenericDao<Instructor> {
 		instructors = session.createCriteria(Instructor.class, "instructor")
 				.add(Restrictions.eq("instructor.deleted", false)).list();
 		return instructors;
+	}
+
+
+	public Instructor getByIdWithCourses(Long id) {
+
+//		final Session session = sessionFactory.getCurrentSession();
+//		final Criteria criteria = (Instructor) session.createCriteria(Instructor.class, "instructor")
+//						.createAlias("instructor.course", "course")
+//				.add(Restrictions.eq("instructor.deleted", false))
+//				.uniqueResult();
+//		return instructor;
+		return null;
+		
 	}
 }

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -56,8 +57,8 @@ public class AdminController {
 	}
 	
 	
-	@RequestMapping(value="/update", method= RequestMethod.GET)
-	public String getUpdate(@RequestParam("id") Long id, Model model){
+	@RequestMapping(value="/update/{id}", method= RequestMethod.GET)
+	public String getUpdate(@PathVariable("id") Long id, Model model){
 		
 		Admin admin = adminService.getById(id);
 		model.addAttribute("admin", admin);

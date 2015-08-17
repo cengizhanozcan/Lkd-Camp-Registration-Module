@@ -45,9 +45,10 @@ public class CourseService extends GenericService<Course> {
 	}
 
 
-	public List<Course> getCourses() {
+	@Override
+	public List<Course> getAll() {
 		
-		return courseDao.getCourses();
+		return courseDao.getAll();
 	}
 	
 	

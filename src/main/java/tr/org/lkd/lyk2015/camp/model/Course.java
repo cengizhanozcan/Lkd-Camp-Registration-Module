@@ -1,5 +1,6 @@
 package tr.org.lkd.lyk2015.camp.model;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -20,20 +21,10 @@ public class Course extends AbstractBaseModel{
 	private String prerequisites;
 	private String detailPageLink;
 	
+	private Boolean active = true;
 	
-	
-	public Boolean getActive() {
-		return active;
-	}
-
-	public void setActive(Boolean active) {
-		this.active = active;
-	}
-
-	private Boolean active;
-	
-	@ManyToMany
-	private Set<Instructor> instructors;
+	@ManyToMany(mappedBy = "courses")
+	private Set<Instructor> instructors = new HashSet<>();
 
 
 	public String getName() {
@@ -75,5 +66,13 @@ public class Course extends AbstractBaseModel{
 	public void setInstructors(Set<Instructor> instructors) {
 		this.instructors = instructors;
 	} 
+
 	
+	public Boolean getActive() {
+		return active;
+	}
+
+	public void setActive(Boolean active) {
+		this.active = active;
+	}
 }
