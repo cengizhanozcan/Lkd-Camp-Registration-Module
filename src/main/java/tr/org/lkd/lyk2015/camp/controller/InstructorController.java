@@ -67,7 +67,7 @@ public class InstructorController {
 	@RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
 	public String getUpdate(@PathVariable("id") Long id, Model model) {
 		
-		Instructor instructor = instructorService.getByIdWithCourses(id);
+		Instructor instructor = instructorService.getInstructorWithCourses(id);
 		List <Course>courses = courseService.getAll();
 		
 		model.addAttribute("courses", courses);

@@ -36,14 +36,21 @@ public class InstructorDao extends GenericDao<Instructor> {
 	}
 
 
-	public Instructor getByIdWithCourses(Long id) {
+	public Instructor getInstructorWithCourses(Long id) {
 
-		final Session session = sessionFactory.getCurrentSession();
-		final Criteria criteria = session.createCriteria(Instructor.class);
-		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
-		criteria.setFetchMode("*", FetchMode.JOIN);
+//		final Session session = sessionFactory.getCurrentSession();
+//		final Criteria criteria = session.createCriteria(Instructor.class);
+//		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+//		criteria.setFetchMode("*", FetchMode.JOIN);
+//		
+//		return (Instructor) criteria.uniqueResult();
 		
-		return (Instructor) criteria.uniqueResult();
 		
+		Criteria c = createCriteria();
+		
+		c.add(Restrictions.idEq(id));
+		c.setFetchMode("courses", FetchMode.JOIN);
+		
+		return (Instructor) c.uniqueResult();
 	}
 }

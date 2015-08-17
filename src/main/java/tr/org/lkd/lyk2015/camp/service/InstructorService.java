@@ -58,16 +58,18 @@ public class InstructorService extends GenericService<Instructor>{
 		setCourses.addAll(courses);
 		
 		
-		instructor.getCourses().addAll(courses);	
+		//instructor.getCourses().addAll(courses);	
 		
 		instructor.setCourses(setCourses); 
 		instructorDao.create(instructor);		
 		
 	}
 
-	public Instructor getByIdWithCourses(Long id) {
+	public Instructor getInstructorWithCourses(Long id) {
 		
-		return instructorDao.getByIdWithCourses(id);
+		//Instructore instructure = getById(id)
+		//Hibernate.initialize(instructor.getCourses())
+		return instructorDao.getInstructorWithCourses(id);
 	
 	}
 	
