@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
@@ -37,13 +38,12 @@ public class InstructorDao extends GenericDao<Instructor> {
 
 	public Instructor getByIdWithCourses(Long id) {
 
-//		final Session session = sessionFactory.getCurrentSession();
-//		final Criteria criteria = (Instructor) session.createCriteria(Instructor.class, "instructor")
-//						.createAlias("instructor.course", "course")
-//				.add(Restrictions.eq("instructor.deleted", false))
-//				.uniqueResult();
-//		return instructor;
-		return null;
+		final Session session = sessionFactory.getCurrentSession();
+		final Criteria criteria = session.createCriteria(Instructor.class);
+		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+		criteria.setFetchMode("*", FetchMode.JOIN);
+		
+		return (Instructor) criteria.uniqueResult();
 		
 	}
 }

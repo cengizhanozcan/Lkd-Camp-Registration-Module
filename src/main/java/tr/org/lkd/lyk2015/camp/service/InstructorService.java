@@ -57,6 +57,9 @@ public class InstructorService extends GenericService<Instructor>{
 		Set <Course> setCourses = new HashSet<>();
 		setCourses.addAll(courses);
 		
+		
+		instructor.getCourses().addAll(courses);	
+		
 		instructor.setCourses(setCourses); 
 		instructorDao.create(instructor);		
 		
