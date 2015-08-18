@@ -1,0 +1,74 @@
+package tr.org.lkd.lyk2015.camp.controller.validation;
+
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.validation.Errors;
+import org.springframework.validation.Validator;
+
+import tr.org.lkd.lyk2015.camp.model.Application.WorkStatus;
+import tr.org.lkd.lyk2015.camp.model.Student;
+import tr.org.lkd.lyk2015.camp.model.dto.ApplicationFormDto;
+import tr.org.lkd.lyk2015.camp.service.TcknValidationService;
+
+/*
+*cengizhan - Aug 18, 2015
+*/
+
+@Component
+public class ApplicationFormValidator implements Validator {
+
+	@Autowired
+	TcknValidationService tcknValidationService;
+
+	@Override
+	public boolean supports(Class<?> clazz) {
+
+		// Validation esnasında çağırılcak.Valide olan classın tipini göndercek.
+		return clazz.equals(ApplicationFormDto.class);
+	}
+
+	@Override
+	public void validate(Object target, Errors errors) {
+
+		ApplicationFormDto application = (ApplicationFormDto) target;
+
+		if (application.getApplication().getWorkStatus() == WorkStatus.NOT_WORKING
+				&& application.getApplication().getOfficer()) {
+
+			errors.rejectValue("workStatus", "error.notWorkingOfficer", "Hep Çalışmayıp hem memursun vay bee...");
+		}
+
+		//// nulları sil
+		application.getPreferredCourseIds().removeAll(Collections.singleton(null));
+		if (application.getPreferredCourseIds().size() == 0) {
+			errors.rejectValue("preferredCourseIds", "error.preferredCourseNoSelection",
+					"En az bir kurs seçmelisiniz...");
+		}
+
+		// Aynı olan kursları seçtirme
+		int listSize = application.getPreferredCourseIds().size();
+		Set<Long> set = new HashSet<>(application.getPreferredCourseIds());
+		int setSize = set.size();
+
+		// Aynı kursu secmis olanlar
+		if (listSize != setSize) {
+
+			errors.rejectValue("preferredCourseIds", "error.preferredCourseSame", "Aynı kursu iki kez seçemezsiniz...");
+		}
+
+		// TCkn validation from web service
+		Student student = application.getStudent();
+		boolean tcknValid = this.tcknValidationService.validate(student.getName(), student.getSurname(),
+				student.getBirthDate(), student.getTckn());
+
+		if (!tcknValid) {
+			errors.rejectValue("student.tckn", "error.tcknValid", "Tc Kimlik No uyuşmadı...");
+
+		}
+
+	}
+}

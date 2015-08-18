@@ -22,13 +22,10 @@ import org.thymeleaf.spring4.SpringTemplateEngine;
 import org.thymeleaf.spring4.view.ThymeleafViewResolver;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
-import junit.framework.Assert;
-
 @Configuration
 @EnableWebMvc
 @EnableTransactionManagement
-@ComponentScan({ "tr.org.lkd.lyk2015.camp.controller", "tr.org.lkd.lyk2015.camp.service",
-		"tr.org.lkd.lyk2015.camp.repository", "tr.org.lkd.lyk2015.camp.dal" })
+@ComponentScan("tr.org.lkd.lyk2015.camp")
 public class WebConfig extends WebMvcConfigurerAdapter {
 
 	@Bean // Beanlar uygulama ilk basladıgında calısır. Bu nesneler Dependcy
@@ -49,7 +46,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 	@Description("Thymeleaf template engine with Spring integration")
 	public SpringTemplateEngine templateEngine() {
 		SpringTemplateEngine templateEngine = new SpringTemplateEngine();
-		templateEngine.setTemplateResolver(templateResolver());
+		templateEngine.setTemplateResolver(this.templateResolver());
 
 		return templateEngine;
 	}
@@ -58,9 +55,9 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 	@Description("Thymeleaf view resolver")
 	public ThymeleafViewResolver viewResolver() {
 		ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
-		viewResolver.setTemplateEngine(templateEngine());
+		viewResolver.setTemplateEngine(this.templateEngine());
 		viewResolver.setContentType("text/html;charset=UTF-8");
-		
+
 		return viewResolver;
 	}
 
@@ -80,7 +77,6 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 	public HibernateTransactionManager getTransactionManager(SessionFactory sessionFactory) {
 		HibernateTransactionManager transactionManager = new HibernateTransactionManager(sessionFactory);
 
-		
 		return transactionManager;
 	}
 
@@ -91,16 +87,19 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 
 		LocalSessionFactoryBuilder sessionBuilder = new LocalSessionFactoryBuilder(dataSource);
 
-		sessionBuilder.scanPackages("tr.org.lkd.lyk2015.camp"); // bu paketin altında ki entitylere bakıyor.
-		sessionBuilder.addProperties(getHibernateProperties());
+		sessionBuilder.scanPackages("tr.org.lkd.lyk2015.camp"); // bu paketin
+																// altında ki
+																// entitylere
+																// bakıyor.
+		sessionBuilder.addProperties(this.getHibernateProperties());
 
 		return sessionBuilder.buildSessionFactory();
 	}
 
 	private Properties getHibernateProperties() { // property dosyamız
 		Properties properties = new Properties();
-		properties.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect"); 
-		properties.put("hibernate.hbm2ddl.auto", "update");  
+		properties.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
+		properties.put("hibernate.hbm2ddl.auto", "update");
 		properties.put("hibernate.show_sql", "true");
 		properties.put("hibernate.format_sql", "true");
 		properties.put("hibernate.use_sql_comments", "true");
