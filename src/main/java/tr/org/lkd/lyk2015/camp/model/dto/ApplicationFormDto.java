@@ -23,8 +23,12 @@ public class ApplicationFormDto {
 	@Size(min = 1, max = 3)
 	private List<Long> preferredCourseIds = new ArrayList<>();
 
+	private Boolean validated = false;
+
+	private String validationId;
+
 	public Application getApplication() {
-		return application;
+		return this.application;
 	}
 
 	public void setApplication(Application applicationForm) {
@@ -32,7 +36,7 @@ public class ApplicationFormDto {
 	}
 
 	public Student getStudent() {
-		return student;
+		return this.student;
 	}
 
 	public void setStudent(Student student) {
@@ -40,12 +44,11 @@ public class ApplicationFormDto {
 	}
 
 	public List<Long> getPreferredCourseIds() {
-		return preferredCourseIds;
+		return this.preferredCourseIds;
 	}
 
 	public void setPreferredCourseIds(List<Long> preferredCourseIds) {
 		this.preferredCourseIds = preferredCourseIds;
 	}
- 
 
 }

@@ -12,6 +12,9 @@ import org.springframework.validation.Validator;
 import tr.org.lkd.lyk2015.camp.model.Application.WorkStatus;
 import tr.org.lkd.lyk2015.camp.model.Student;
 import tr.org.lkd.lyk2015.camp.model.dto.ApplicationFormDto;
+import tr.org.lkd.lyk2015.camp.service.BlackListService;
+import tr.org.lkd.lyk2015.camp.service.ExaminationService;
+import tr.org.lkd.lyk2015.camp.service.MailService;
 import tr.org.lkd.lyk2015.camp.service.TcknValidationService;
 
 /*
@@ -23,6 +26,15 @@ public class ApplicationFormValidator implements Validator {
 
 	@Autowired
 	TcknValidationService tcknValidationService;
+
+	@Autowired
+	BlackListService blackListService;
+
+	@Autowired
+	ExaminationService examinationService;
+
+	@Autowired
+	MailService mailService;
 
 	@Override
 	public boolean supports(Class<?> clazz) {
@@ -62,6 +74,25 @@ public class ApplicationFormValidator implements Validator {
 
 		// TCkn validation from web service
 		Student student = application.getStudent();
+
+		this.tcknValidation(errors, student);
+
+		this.isExaminationFail(errors, student);
+
+		this.isBlackList(errors, student);
+
+		this.activationMailValid(errors, student);
+
+	}
+
+	private void activationMailValid(Errors errors, Student student) {
+		boolean isMailSuccess = this.mailService.sendActivationMail(student.getEmail(), "subject", "content");
+		if (!isMailSuccess) {
+			errors.rejectValue("student.email", "error.mail", "Aktivasyon Mail'i Gönderilemedi...");
+		}
+	}
+
+	private void tcknValidation(Errors errors, Student student) {
 		boolean tcknValid = this.tcknValidationService.validate(student.getName(), student.getSurname(),
 				student.getBirthDate(), student.getTckn());
 
@@ -69,6 +100,24 @@ public class ApplicationFormValidator implements Validator {
 			errors.rejectValue("student.tckn", "error.tcknValid", "Tc Kimlik No uyuşmadı...");
 
 		}
-
 	}
+
+	private void isExaminationFail(Errors errors, Student student) {
+		boolean examinationResult = this.examinationService.examinationIsSuccess(student.getName(),
+				student.getSurname(), student.getTckn(), student.getEmail());
+
+		if (!examinationResult) {
+			errors.rejectValue("student.email", "error.examinationFail", "Sınav Sonucu Başarısız...");
+		}
+	}
+
+	private void isBlackList(Errors errors, Student student) {
+		boolean blackListResult = this.blackListService.inBlackList(student.getTckn(), student.getEmail());
+
+		if (!blackListResult) {
+			errors.rejectValue("student.email", "error.blackList",
+					"Kara Listede Bulunduğunuz İçin Başvurunuz Reddedildi...");
+		}
+	}
+
 }
