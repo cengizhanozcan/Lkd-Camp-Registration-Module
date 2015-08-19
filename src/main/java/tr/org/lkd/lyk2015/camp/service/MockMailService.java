@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class MockMailService implements MailService {
+public class MockMailService implements EmailService {
 
 	@Override
 	public Boolean sendActivationEmail(String sender, String subject, String content) {

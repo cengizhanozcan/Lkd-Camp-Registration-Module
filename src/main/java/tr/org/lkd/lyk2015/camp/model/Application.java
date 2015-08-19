@@ -6,8 +6,8 @@ import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
@@ -49,7 +49,7 @@ public class Application extends AbstractBaseModel {
 
 	private String validationId;
 
-	@OneToMany
+	@ManyToMany
 	private Set<Course> preferredCourses = new HashSet<>();
 
 	@ManyToOne

@@ -7,7 +7,6 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.OneToMany;
 
-
 /*
 *cengizhan - Aug 16, 2015
 */
@@ -21,16 +20,24 @@ public class Student extends AbstractUser {
 
 	@Enumerated(EnumType.STRING)
 	private Sex sex;
- 
+
 	@OneToMany(mappedBy = "owner")
 	private Set<Application> applicationForms;
-	
+
 	public Sex getSex() {
-		return sex;
+		return this.sex;
 	}
 
 	public void setSex(Sex sex) {
 		this.sex = sex;
 	}
-	
+
+	public Set<Application> getApplicationForms() {
+		return this.applicationForms;
+	}
+
+	public void setApplicationForms(Set<Application> applicationForms) {
+		this.applicationForms = applicationForms;
+	}
+
 }

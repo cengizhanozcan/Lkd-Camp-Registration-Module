@@ -51,9 +51,13 @@ public class ApplicationController {
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
 	public String postApplicationForm(@ModelAttribute("form") @Valid ApplicationFormDto applicationFormDto,
 			BindingResult bindingResult, Model model) {
+		// if (bindingResult.hasErrors()) {
+		//
+		// model.addAttribute("courses", this.courseService.getAll());
+		// return "applicationForm";
+		// }
 
 		this.applicationService.createApplication(applicationFormDto);
-
 		return "applicationForm";
 	}
 

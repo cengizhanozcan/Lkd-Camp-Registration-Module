@@ -22,11 +22,16 @@ import tr.org.lkd.lyk2015.camp.model.dto.ApplicationFormDto;
 @Service
 public class ApplicationService extends GenericService<Application> {
 
+	private static final String URL_BASE = "http://localhost:8080/camp/applicationForm/validate/";
+
 	@Autowired
 	private CourseDao courseDao;
 
 	@Autowired
 	private StudentService studentService;
+
+	@Autowired
+	private EmailService emailService;
 
 	@Autowired
 	private ApplicationDao applicationDao;
@@ -38,10 +43,9 @@ public class ApplicationService extends GenericService<Application> {
 
 	}
 
-	public String createConfirmationUrl() {
+	public String createConfirmationUrl(String url) {
 
-		String url = "http://localhost:8080/camp/applicationForm/validate/" + this.generateUUID();
-		return url;
+		return URL_BASE + url;
 	}
 
 	private List<Course> getCourseByIds(ApplicationFormDto applicationFormDto, List<Long> preferredCourseIds) {
@@ -53,7 +57,6 @@ public class ApplicationService extends GenericService<Application> {
 	public void createApplication(ApplicationFormDto applicationFormDto) {
 
 		List<Course> courses = this.getCourseByIds(applicationFormDto, applicationFormDto.getPreferredCourseIds());
-
 		applicationFormDto.getApplication().getPreferredCourses().addAll(courses);
 
 		// -----------------------------------------------------------------------------
@@ -63,10 +66,24 @@ public class ApplicationService extends GenericService<Application> {
 		}
 		// -----------------------------------------------------------------------------
 
+		Application application = applicationFormDto.getApplication();
 		Student student = this.studentService.checkStudentExist(applicationFormDto.getStudent());
-		applicationFormDto.setStudent(student);
 
-		Long success = this.applicationDao.create(applicationFormDto.getApplication());
+		String url = this.generateUUID();
+
+		application.setValidationId(url);
+		application.setValidated(false);
+		// Yeni eklenen
+		application.setOwner(student);
+		// -----------
+
+		this.emailService.sendActivationEmail(student.getEmail(), "Activation", this.createConfirmationUrl(url));
+		// Set<Application> applications = student.getApplicationForms();
+		// applications.add(application);
+		// student.setApplicationForms(applications);
+		// applicationFormDto.setStudent(student);
+
+		Long success = this.applicationDao.create(application);
 	}
 
 }
