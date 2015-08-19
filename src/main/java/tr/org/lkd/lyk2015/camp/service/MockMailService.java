@@ -14,10 +14,10 @@ public class MockMailService implements EmailService {
 	@Override
 	public Boolean sendActivationEmail(String sender, String subject, String content) {
 
-		if (!sender.equals("a@a.com"))
-			return false;
+		SendEmail.send(sender, subject, content);
+		System.out.println(sender + " " + subject + " " + content);
 
-		return true;
+		return null;
 	}
 
 }

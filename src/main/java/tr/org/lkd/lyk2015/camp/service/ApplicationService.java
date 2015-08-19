@@ -86,4 +86,21 @@ public class ApplicationService extends GenericService<Application> {
 		Long success = this.applicationDao.create(application);
 	}
 
+	public String validation(String confirmationCode) {
+
+		System.out.println(confirmationCode);
+		Application application = this.applicationDao.getValidator(confirmationCode);
+
+		if (application == null) {
+			return "yok";
+		} else {
+			if (application.getValidated()) {
+				return "mevcut";
+			}
+			application.setValidated(true);
+			this.applicationDao.update(application);
+		}
+		return "basarili";
+	}
+
 }

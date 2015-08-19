@@ -63,7 +63,16 @@ public class ApplicationController {
 
 	@RequestMapping(value = "/validate/{confirmationCode}", method = RequestMethod.GET)
 	public String getValidate(@PathVariable("confirmationCode") String confirmationCode, Model model) {
-		model.addAttribute("message", "Confirmation işlemi Başarılı...");
+
+		String isSuccess = this.applicationService.validation(confirmationCode);
+		if (isSuccess.equals("ok")) {
+			model.addAttribute("message", "Confirmation işlemi Başarılı...");
+		} else if (isSuccess.equals("mevcut")) {
+			model.addAttribute("message", "Confirmation işlemi daha önceden yapılmış...");
+		} else {
+			model.addAttribute("message", "Böyle bir confirmation urlsi bulunmamaktadır....");
+
+		}
 		return "confirmation";
 	}
 

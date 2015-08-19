@@ -1,5 +1,9 @@
 package tr.org.lkd.lyk2015.camp.dal;
 
+import java.lang.reflect.ParameterizedType;
+import java.util.Calendar;
+import java.util.List;
+
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
 import org.hibernate.Session;
@@ -9,14 +13,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
 import tr.org.lkd.lyk2015.camp.model.AbstractBaseModel;
-import java.lang.reflect.ParameterizedType;
-import java.util.Calendar;
-import java.util.List;
 
 @Repository
 public class GenericDao<T extends AbstractBaseModel> {
-	
+
 	@Autowired
 	protected SessionFactory sessionFactory;
 	protected Class<T> type;
@@ -45,31 +47,33 @@ public class GenericDao<T extends AbstractBaseModel> {
 	@SuppressWarnings("unchecked")
 	public GenericDao() {
 		try {
-			this.type = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+			this.type = (Class<T>) ((ParameterizedType) this.getClass().getGenericSuperclass())
+					.getActualTypeArguments()[0];
 		} catch (ClassCastException e) {
 			// e.printStackTrace();
 			this.type = (Class<T>) AbstractBaseModel.class;
 		}
 		Class<?> type = this.getClass().getSuperclass();
-		logger = LoggerFactory.getLogger(type);
+		this.logger = LoggerFactory.getLogger(type);
 	}
 
 	public Long create(final T t) {
-		final Session session = sessionFactory.getCurrentSession();
+		final Session session = this.sessionFactory.getCurrentSession();
 		final Calendar now = Calendar.getInstance();
 		t.setUpdateDate(now);
+		t.setCreateDate(now);
 		return (Long) session.save(t);
 	}
 
 	@SuppressWarnings("unchecked")
 	public T getById(final Long id) {
-		final Session session = sessionFactory.getCurrentSession();
-		return (T) session.get(type, id);
+		final Session session = this.sessionFactory.getCurrentSession();
+		return (T) session.get(this.type, id);
 	}
 
 	@SuppressWarnings("unchecked")
 	public T update(final T t) {
-		final Session session = sessionFactory.getCurrentSession();
+		final Session session = this.sessionFactory.getCurrentSession();
 		final Calendar now = Calendar.getInstance();
 		t.setUpdateDate(now);
 		t.setDeleted(false);
@@ -77,15 +81,15 @@ public class GenericDao<T extends AbstractBaseModel> {
 	}
 
 	public void delete(final T t) {
-		final Session session = sessionFactory.getCurrentSession();
+		final Session session = this.sessionFactory.getCurrentSession();
 		t.setDeleted(true);
 		session.merge(t);
 	}
 
 	@SuppressWarnings("unchecked")
 	public List<T> getAll() {
-		final Session session = sessionFactory.getCurrentSession();
-		final Criteria criteria = session.createCriteria(type);
+		final Session session = this.sessionFactory.getCurrentSession();
+		final Criteria criteria = session.createCriteria(this.type);
 		criteria.add(Restrictions.eq("deleted", false));
 		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		criteria.setFetchMode("*", FetchMode.JOIN);
@@ -93,17 +97,17 @@ public class GenericDao<T extends AbstractBaseModel> {
 	}
 
 	public void hardDelete(final T t) {
-		final Session session = sessionFactory.getCurrentSession();
+		final Session session = this.sessionFactory.getCurrentSession();
 		session.delete(t);
 	}
 
 	public void delete(Long id, Class clazz) {
-		final Session session = sessionFactory.getCurrentSession();
+		final Session session = this.sessionFactory.getCurrentSession();
 		this.delete((T) session.load(clazz, id));
 	}
 
 	protected Criteria createCriteria() {
-		final Session session = sessionFactory.getCurrentSession();
-		return session.createCriteria(type).add(Restrictions.eq("deleted", false));
+		final Session session = this.sessionFactory.getCurrentSession();
+		return session.createCriteria(this.type).add(Restrictions.eq("deleted", false));
 	}
 }
