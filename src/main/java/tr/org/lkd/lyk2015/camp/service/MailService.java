@@ -5,5 +5,5 @@ package tr.org.lkd.lyk2015.camp.service;
 */
 public interface MailService {
 
-	Boolean sendActivationMail(String sender, String subject, String content);
+	Boolean sendActivationEmail(String sender, String subject, String content);
 }

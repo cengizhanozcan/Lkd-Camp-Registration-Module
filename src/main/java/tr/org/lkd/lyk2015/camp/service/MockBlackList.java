@@ -14,11 +14,10 @@ public class MockBlackList implements BlackListService {
 	@Override
 	public Boolean inBlackList(Long tckn, String email) {
 
-		if (email.equals("a@a.com")) { // İf black People
-			return true;
-		}
+		if (!tckn.equals(11111111111L))
+			return false;
 
-		return false;
+		return true;
 	}
 
 }

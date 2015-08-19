@@ -14,7 +14,6 @@ import tr.org.lkd.lyk2015.camp.model.Student;
 import tr.org.lkd.lyk2015.camp.model.dto.ApplicationFormDto;
 import tr.org.lkd.lyk2015.camp.service.BlackListService;
 import tr.org.lkd.lyk2015.camp.service.ExaminationService;
-import tr.org.lkd.lyk2015.camp.service.MailService;
 import tr.org.lkd.lyk2015.camp.service.TcknValidationService;
 
 /*
@@ -32,9 +31,6 @@ public class ApplicationFormValidator implements Validator {
 
 	@Autowired
 	ExaminationService examinationService;
-
-	@Autowired
-	MailService mailService;
 
 	@Override
 	public boolean supports(Class<?> clazz) {
@@ -81,15 +77,6 @@ public class ApplicationFormValidator implements Validator {
 
 		this.isBlackList(errors, student);
 
-		this.activationMailValid(errors, student);
-
-	}
-
-	private void activationMailValid(Errors errors, Student student) {
-		boolean isMailSuccess = this.mailService.sendActivationMail(student.getEmail(), "subject", "content");
-		if (!isMailSuccess) {
-			errors.rejectValue("student.email", "error.mail", "Aktivasyon Mail'i Gönderilemedi...");
-		}
 	}
 
 	private void tcknValidation(Errors errors, Student student) {

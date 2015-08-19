@@ -215,7 +215,7 @@
 							Tercih</label>
 						<div class="col-lg-10 col-md-10">
 							<select class="form-control" id="firstChoice"
-								th:field="*{preferredCourseIds}">
+								th:field="*{preferredCourseIds[0]}">
 								<option value="">Seciniz</option>
 								<option th:each="course : ${courses}" th:value="${course.id}"
 									th:text="${course.name}"
@@ -229,7 +229,7 @@
 							Tercih</label>
 						<div class="col-lg-10 col-md-10">
 							<select class="form-control" id="secondChoice"
-								th:field="*{preferredCourseIds}">
+								th:field="*{preferredCourseIds[1]}">
 								<option value="">Seciniz</option>
 								<option th:each="course : ${courses}" th:value="${course.id}"
 									th:text="${course.name}"
@@ -242,7 +242,7 @@
 							Tercih</label>
 						<div class="col-lg-10 col-md-10">
 							<select class="form-control" id="thirdChoice"
-								th:field="*{preferredCourseIds}">
+								th:field="*{preferredCourseIds[2]}">
 								<option value="">Seciniz</option>
 								<option th:each="course : ${courses}" th:value="${course.id}"
 									th:text="${course.name}"

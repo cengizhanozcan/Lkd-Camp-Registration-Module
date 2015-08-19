@@ -12,7 +12,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class MockMailService implements MailService {
 
 	@Override
-	public Boolean sendActivationMail(String sender, String subject, String content) {
+	public Boolean sendActivationEmail(String sender, String subject, String content) {
+
+		if (!sender.equals("a@a.com"))
+			return false;
+
 		return true;
 	}
 

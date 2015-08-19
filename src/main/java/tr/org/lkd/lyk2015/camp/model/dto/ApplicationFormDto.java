@@ -1,6 +1,6 @@
 package tr.org.lkd.lyk2015.camp.model.dto;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -21,11 +21,7 @@ public class ApplicationFormDto {
 	private Student student = new Student();
 
 	@Size(min = 1, max = 3)
-	private List<Long> preferredCourseIds = new ArrayList<>();
-
-	private Boolean validated = false;
-
-	private String validationId;
+	private List<Long> preferredCourseIds = Arrays.asList(null, null, null);
 
 	public Application getApplication() {
 		return this.application;
