@@ -6,6 +6,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,24 +24,27 @@ import tr.org.lkd.lyk2015.camp.model.Admin;
 public class AdminService extends GenericService<Admin> {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
-
 	@Autowired
 	private AdminDao adminDao;
-	
- 
-	protected Logger logger = LoggerFactory.getLogger(getClass());
 
+	@Autowired
+	PasswordEncoder passwordEncoder;
+
+	protected Logger logger = LoggerFactory.getLogger(this.getClass());
+
+	@Override
 	public Long create(Admin admin) {
 
 		if (admin == null) {
 			throw new RuntimeException("Admin cannot create");
 		}
 
-		setBaseAttribute(admin);
+		this.setBaseAttribute(admin);
+		admin.setPassword(this.passwordEncoder.encode(admin.getPassword()));
 
 		return super.create(admin);
 	}
@@ -58,14 +62,15 @@ public class AdminService extends GenericService<Admin> {
 
 	public List<AbstractUser> getAdmins() {
 
-		return adminDao.getAdmins();
+		return this.adminDao.getAdmins();
 	}
-	
-	public Admin update(Admin admin){
-		
-		setBaseAttribute(admin);
+
+	@Override
+	public Admin update(Admin admin) {
+
+		this.setBaseAttribute(admin);
 		return super.update(admin);
-				
+
 	}
 
 }

@@ -8,6 +8,7 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,16 +24,18 @@ import tr.org.lkd.lyk2015.camp.model.Instructor;
 */
 @Transactional
 @Service
-public class InstructorService extends GenericService<Instructor>{
+public class InstructorService extends GenericService<Instructor> {
 
 	@Autowired
 	protected InstructorDao instructorDao;
-	
+
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+
 	@Autowired
 	protected CourseDao courseDao;
 
-	protected Logger logger = LoggerFactory.getLogger(getClass());
-
+	protected Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	private void setBaseAttribute(AbstractUser instructor) {
 
@@ -42,9 +45,9 @@ public class InstructorService extends GenericService<Instructor>{
 		instructor.setDeleted(false);
 	}
 
-	public List<Instructor> getInstructors(){
-		
-		return instructorDao.getInstructures();
+	public List<Instructor> getInstructors() {
+
+		return this.instructorDao.getInstructures();
 	}
 
 	public void create(Instructor instructor, List<Long> courseIds) {
@@ -52,25 +55,26 @@ public class InstructorService extends GenericService<Instructor>{
 		if (instructor == null) {
 			throw new RuntimeException("Instructor cannot create");
 		}
-		setBaseAttribute(instructor); 
-		List<Course> courses = courseDao.getByIds(courseIds);
-		Set <Course> setCourses = new HashSet<>();
+		this.setBaseAttribute(instructor);
+		List<Course> courses = this.courseDao.getByIds(courseIds);
+		Set<Course> setCourses = new HashSet<>();
 		setCourses.addAll(courses);
-		
-		
-		//instructor.getCourses().addAll(courses);	
-		
-		instructor.setCourses(setCourses); 
-		instructorDao.create(instructor);		
-		
+
+		// instructor.getCourses().addAll(courses);
+
+		instructor.setCourses(setCourses);
+		instructor.setPassword(this.passwordEncoder.encode(instructor.getPassword()));
+
+		this.instructorDao.create(instructor);
+
 	}
 
 	public Instructor getInstructorWithCourses(Long id) {
-		
-		//Instructore instructure = getById(id)
-		//Hibernate.initialize(instructor.getCourses())
-		return instructorDao.getInstructorWithCourses(id);
-	
+
+		// Instructore instructure = getById(id)
+		// Hibernate.initialize(instructor.getCourses())
+		return this.instructorDao.getInstructorWithCourses(id);
+
 	}
-	
+
 }

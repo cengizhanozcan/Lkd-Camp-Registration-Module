@@ -81,7 +81,9 @@ public class ApplicationService extends GenericService<Application> {
 		application.setOwner(student);
 		// -----------
 
-		this.emailService.sendActivationEmail(student.getEmail(), "Activation", this.createConfirmationUrl(url));
+		String mailBody = this.createConfirmationUrl(url) + " \n" + "\n" + "Password: 123";
+
+		this.emailService.sendActivationEmail(student.getEmail(), "Activation", mailBody);
 		// Set<Application> applications = student.getApplicationForms();
 		// applications.add(application);
 		// student.setApplicationForms(applications);
@@ -103,6 +105,7 @@ public class ApplicationService extends GenericService<Application> {
 			}
 			application.setValidated(true);
 			this.applicationDao.update(application);
+
 		}
 		return "basarili";
 	}

@@ -73,7 +73,7 @@ public class ApplicationController {
 	public String getValidate(@PathVariable("confirmationCode") String confirmationCode, Model model) {
 
 		String isSuccess = this.applicationService.validation(confirmationCode);
-		if (isSuccess.equals("ok")) {
+		if (isSuccess.equals("basarili")) {
 			model.addAttribute("message", "Confirmation işlemi Başarılı...");
 		} else if (isSuccess.equals("mevcut")) {
 			model.addAttribute("message", "Confirmation işlemi daha önceden yapılmış...");
