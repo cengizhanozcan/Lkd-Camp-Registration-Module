@@ -14,9 +14,6 @@ public class MockBlackList implements BlackListService {
 	@Override
 	public Boolean inBlackList(Long tckn, String email) {
 
-		if (!tckn.equals(11111111111L))
-			return false;
-
 		return true;
 	}
 

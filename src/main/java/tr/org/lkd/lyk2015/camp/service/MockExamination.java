@@ -13,10 +13,6 @@ public class MockExamination implements ExaminationService {
 
 	@Override
 	public Boolean examinationIsSuccess(String name, String surname, Long tckn, String email) {
-
-		if (!tckn.equals(11111111111L))
-			return false;
-
 		return true;
 	}
 
