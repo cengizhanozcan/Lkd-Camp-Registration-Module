@@ -2,11 +2,12 @@ package tr.org.lkd.lyk2015.camp.controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,15 +36,15 @@ public class InstructorController {
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public String getInstructorForm(@ModelAttribute Instructor instructor, Model model) {
 
-		model.addAttribute("courses", courseService.getAll());
+		model.addAttribute("courses", this.courseService.getAll());
 		return "instructors/create";
 	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
-	public String postInstructorForm(@ModelAttribute Instructor instructor,
+	public String postInstructorForm(@ModelAttribute @Valid Instructor instructor, BindingResult bindingResult,
 			@RequestParam("passwordAgain") String passwordAgain, @RequestParam("courseIds") List<Long> courseIds) {
 
-		passwordEquals(instructor, passwordAgain, courseIds);
+		this.passwordEquals(instructor, passwordAgain, courseIds);
 
 		return "redirect:/instructors";
 	}
@@ -52,24 +53,24 @@ public class InstructorController {
 
 		if (passwordAgain.equals(instructor.getPassword())) {
 
-			instructorService.create(instructor, courseIds);
+			this.instructorService.create(instructor, courseIds);
 		}
 	}
 
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public String getInstructors(Model model) {
 
-		model.addAttribute("instructors", instructorService.getInstructors());
+		model.addAttribute("instructors", this.instructorService.getInstructors());
 
 		return "instructors/instructorList";
 	}
 
 	@RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
 	public String getUpdate(@PathVariable("id") Long id, Model model) {
-		
-		Instructor instructor = instructorService.getInstructorWithCourses(id);
-		List <Course>courses = courseService.getAll();
-		
+
+		Instructor instructor = this.instructorService.getInstructorWithCourses(id);
+		List<Course> courses = this.courseService.getAll();
+
 		model.addAttribute("courses", courses);
 		model.addAttribute("instructor", instructor);
 
@@ -79,7 +80,7 @@ public class InstructorController {
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	public String postUpdate(@ModelAttribute Instructor instructor) {
 
-		instructorService.update(instructor);
+		this.instructorService.update(instructor);
 
 		return "redirect:/instructors";
 	}

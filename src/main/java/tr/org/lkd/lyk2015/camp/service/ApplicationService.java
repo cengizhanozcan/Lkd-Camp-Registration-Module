@@ -1,5 +1,6 @@
 package tr.org.lkd.lyk2015.camp.service;
 
+import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
 
@@ -57,8 +58,11 @@ public class ApplicationService extends GenericService<Application> {
 	public void createApplication(ApplicationFormDto applicationFormDto) {
 
 		List<Course> courses = this.getCourseByIds(applicationFormDto, applicationFormDto.getPreferredCourseIds());
+		applicationFormDto.getApplication().getPreferredCourses().clear();
 		applicationFormDto.getApplication().getPreferredCourses().addAll(courses);
 
+		int year = Calendar.getInstance().get(Calendar.YEAR);
+		applicationFormDto.getApplication().setYear(year);
 		// -----------------------------------------------------------------------------
 		System.out.println("ApplicationSErver ---- getCourseByıdd ---------------");
 		for (Course course : applicationFormDto.getApplication().getPreferredCourses()) {

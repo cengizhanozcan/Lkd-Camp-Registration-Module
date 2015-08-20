@@ -5,6 +5,7 @@ import java.util.Calendar;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import javax.validation.constraints.NotNull;
 
 /*
 *cengizhan - Aug 16, 2015
@@ -17,9 +18,12 @@ public abstract class AbstractBaseModel {
 	@GeneratedValue
 	private Long id;
 
+	@NotNull
 	private Calendar createDate;
 	private Calendar updateDate;
 	private Calendar deleteDate;
+
+	@NotNull
 	private Boolean deleted = false;
 
 	public Long getId() {

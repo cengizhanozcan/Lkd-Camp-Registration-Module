@@ -3,13 +3,17 @@ package tr.org.lkd.lyk2015.camp.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 /*
 *cengizhan - Aug 16, 2015
@@ -28,33 +32,47 @@ public class Application extends AbstractBaseModel {
 		WORKING, STUDENT, NOT_WORKING
 	}
 
-	@Max(2005)
-	@Min(1940)
+	// hepsi not empty
+
+	@Min(2012)
+	@Column(nullable = false)
 	private Integer year;
 
 	@Enumerated(EnumType.STRING)
+	@Column(nullable = false)
 	private WorkStatus workStatus;
 
+	@NotNull
 	private Boolean officer = false;
 
 	private String corporation;
 
+	@NotEmpty
 	private String workDetails;
 
+	@NotNull
 	private Integer englishLevel = new Integer(0);
 
 	private String githubLink;
 
+	@NotNull
 	private Boolean validated = false;
 
+	@NotEmpty
 	private String validationId;
 
+	@NotNull
+	private Boolean selected = false;
+
 	@ManyToMany
+	@Size(min = 1, max = 3)
+	@NotNull
 	private Set<Course> preferredCourses = new HashSet<>();
 
-	@ManyToOne
+	@ManyToOne(optional = false)
 	private Student owner;
 
+	@NotNull
 	private Boolean needAccomodation;
 
 	public WorkStatus getWorkStatus() {
@@ -163,6 +181,14 @@ public class Application extends AbstractBaseModel {
 
 	public void setValidationId(String validationId) {
 		this.validationId = validationId;
+	}
+
+	public Boolean getSelected() {
+		return this.selected;
+	}
+
+	public void setSelected(Boolean selected) {
+		this.selected = selected;
 	}
 
 }

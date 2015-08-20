@@ -58,7 +58,15 @@ public class ApplicationController {
 		// }
 
 		this.applicationService.createApplication(applicationFormDto);
-		return "applicationForm";
+		return "registirationSuccess";
+	}
+
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	public String getApplicationList(Model model) {
+
+		model.addAttribute("applicationList", this.applicationService.getAll());
+
+		return "applications";
 	}
 
 	@RequestMapping(value = "/validate/{confirmationCode}", method = RequestMethod.GET)

@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
 
 /*
 *cengizhan - Aug 16, 2015
@@ -18,6 +19,7 @@ public class Student extends AbstractUser {
 		MALE, FEMALE
 	}
 
+	@NotNull
 	@Enumerated(EnumType.STRING)
 	private Sex sex;
 
